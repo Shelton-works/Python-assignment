@@ -1,8 +1,7 @@
 """
 ASSIGNMENT 2
 All the answers to all 6 questions are in this file.
-Uncommon English variable names are used throughout the solutions.
-Every concept is explained in clear, non-technical comments.
+
 """
 
 import sqlite3
@@ -93,14 +92,12 @@ def run_question_one():
             except Exception:
                 pass
 
-
-# ==============================================================================
 # QUESTION 2: Encapsulation & BankAccount Class
-# ==============================================================================
+
 """
 Question 2 Explanation:
 What is Encapsulation?
-Think of encapsulation like keeping your valuables locked inside a heavy personal vault.
+Encapsulation like keeping your valuables locked inside a heavy personal vault.
 Passersby on the street cannot simply reach into your pockets or pry open the vault door directly!
 Instead, your money is private and concealed behind locked doors.
 If anyone wishes to add funds (deposit) or withdraw funds, they must ask the vault keeper through official slots.
@@ -178,10 +175,8 @@ def run_question_two():
         print(f"BLOCKED BY PYTHON: Cannot access '__quicksilver_balance' directly -> {clandestine_access_error}")
         print("Encapsulation successfully prevents outside code from altering the balance directly!")
 
-
-# ==============================================================================
 # QUESTION 3: Socket Client-Server Program with Basic Error Handling
-# ==============================================================================
+
 """
 Question 3 Explanation:
 Think of a client and server like making a telephone call.
@@ -271,10 +266,8 @@ def run_question_three():
     # Await server completion
     sentinel_thread.join(timeout=3.0)
 
-
-# ==============================================================================
 # QUESTION 4: Random Floating-Point Numbers & Min / Max Calculation
-# ==============================================================================
+
 """
 Question 4 Explanation:
 We use Python's 'random' module, which functions like rolling digital polyhedral dice.
@@ -303,10 +296,8 @@ def run_question_four():
     print(f"\nMinimum value (using min()): {nadir_value:.4f}")
     print(f"Maximum value (using max()): {zenith_value:.4f}")
 
-
-# ==============================================================================
 # QUESTION 5: Abstract Base Class (ABC) FileHandler Hierarchy
-# ==============================================================================
+
 """
 Question 5 Explanation:
 What is an Abstract Base Class (ABC)?
@@ -411,10 +402,8 @@ def run_question_five():
                 except Exception:
                     pass
 
-
-# ==============================================================================
 # QUESTION 6: Class Hierarchy and Method Overriding (Vehicle, Car, Bike)
-# ==============================================================================
+
 """
 Question 6 Explanation:
 What is a Class Hierarchy and Method Overriding?
@@ -482,10 +471,8 @@ def run_question_six():
     for conveyance_unit in fleet_of_conveyances:
         conveyance_unit.move()
 
-
-# ==============================================================================
 # MAIN EXECUTION
-# ==============================================================================
+
 if __name__ == "__main__":
     print("\n" + "#" * 60)
     print("     STARTING ASSIGNMENT 2 DEMONSTRATIONS (100 MARKS)")
