@@ -1,10 +1,7 @@
 """
 ASSIGNMENT 2
-Total Marks: 100
+all the answers to all 6 questions are in this file.
 
-This file contains solutions to all 6 questions.
-Uncommon / Shona variable names are used throughout the solutions.
-Every concept is explained in clear, non-technical comments.
 """
 
 import sqlite3
@@ -15,13 +12,11 @@ import time
 import os
 from abc import ABC, abstractmethod
 
-
-# ==============================================================================
 # QUESTION 1: SQLite Database Connection, Table Creation, Insertion & Retrieval
-# ==============================================================================
+
 """
 Question 1 Explanation:
-Think of SQLite like a compact digital notebook stored directly inside a file on your computer.
+SQLite like a compact digital notebook stored directly inside a file on your computer.
 - First, we open the notebook by connecting to it (sqlite3.connect).
 - Second, we create a 'cursor', which is like our pen that writes and reads instructions.
 - Third, we draw our table format (CREATE TABLE) with column headings like ID, Name, Grade, and City.
