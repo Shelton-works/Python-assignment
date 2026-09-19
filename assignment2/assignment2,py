@@ -1,9 +1,7 @@
 """
 ASSIGNMENT 2
-Total Marks: 100
-
-This file contains solutions to all 6 questions.
-Uncommon / Shona variable names are used throughout the solutions.
+All the answers to all 6 questions are in this file.
+Uncommon English variable names are used throughout the solutions.
 Every concept is explained in clear, non-technical comments.
 """
 
@@ -15,85 +13,83 @@ import time
 import os
 from abc import ABC, abstractmethod
 
-
-# ==============================================================================
 # QUESTION 1: SQLite Database Connection, Table Creation, Insertion & Retrieval
-# ==============================================================================
+
 """
 Question 1 Explanation:
-Think of SQLite like a compact digital notebook stored directly inside a file on your computer.
+SQLite like a compact digital notebook stored directly inside a file on your computer.
 - First, we open the notebook by connecting to it (sqlite3.connect).
-- Second, we create a 'cursor', which is like our pen that writes and reads instructions.
-- Third, we draw our table format (CREATE TABLE) with column headings like ID, Name, Grade, and City.
-- Fourth, we insert records into the table rows (INSERT INTO).
+- Second, we create a 'cursor', which is like our fountain pen that writes and reads instructions.
+- Third, we draw our table format (CREATE TABLE) with column headings like ID, Name, Rank, and Sanctuary City.
+- Fourth, we insert apprentice records into the table rows (INSERT INTO).
 - Finally, we ask the database to fetch and display all rows (SELECT *), and then we close the notebook.
 """
 
-def mubvunzo_wekutanga():
+def run_question_one():
     print("\n" + "=" * 60)
     print("QUESTION 1: SQLite Database Demonstration")
     print("=" * 60)
 
-    dura_zita = "vadzidzi_database.db"
+    labyrinth_db_name = "scholars_repository.db"
 
     try:
         # Step 1: Connect to the SQLite database
-        tinashe_kubatana = sqlite3.connect(dura_zita)
-        chipo_cursor = tinashe_kubatana.cursor()
+        peregrine_db_conn = sqlite3.connect(labyrinth_db_name)
+        theophilus_cursor = peregrine_db_conn.cursor()
 
-        # Step 2: Create a table for students (vadzidzi)
-        chipo_cursor.execute("""
-            CREATE TABLE IF NOT EXISTS vadzidzi (
+        # Step 2: Create a table for scholars/apprentices
+        theophilus_cursor.execute("""
+            CREATE TABLE IF NOT EXISTS apprentices (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                zita TEXT NOT NULL,
-                giredhi INTEGER NOT NULL,
-                guta TEXT NOT NULL
+                apprentice_name TEXT NOT NULL,
+                scholastic_rank INTEGER NOT NULL,
+                sanctuary_city TEXT NOT NULL
             )
         """)
 
-        # Clear any previous run's data for a clean demonstration
-        chipo_cursor.execute("DELETE FROM vadzidzi")
+        # Clear any prior run's records for a pristine demonstration
+        theophilus_cursor.execute("DELETE FROM apprentices")
 
-        # Step 3: Insert student data into the table
-        farai_dhata = [
-            ("Farai Mutasa", 5, "Harare"),
-            ("Rutendo Moyo", 4, "Bulawayo"),
-            ("Kudzai Gava", 6, "Gweru"),
-            ("Nyasha Chimuka", 5, "Mutare")
+        # Step 3: Insert records using uncommon names into the table
+        cornelius_records = [
+            ("Bartholomew Sterling", 5, "Edinburgh"),
+            ("Gwendolyn Vance", 4, "Canterbury"),
+            ("Algernon Blackwood", 6, "Oxford"),
+            ("Clementine Frost", 5, "Cambridge")
         ]
 
-        chipo_cursor.executemany("""
-            INSERT INTO vadzidzi (zita, giredhi, guta)
+        theophilus_cursor.executemany("""
+            INSERT INTO apprentices (apprentice_name, scholastic_rank, sanctuary_city)
             VALUES (?, ?, ?)
-        """, farai_dhata)
+        """, cornelius_records)
 
         # Commit (save) the changes
-        tinashe_kubatana.commit()
-        print(f"Successfully inserted {len(farai_dhata)} student records into 'vadzidzi' table.")
+        peregrine_db_conn.commit()
+        print(f"Successfully inserted {len(cornelius_records)} apprentice records into 'apprentices' table.")
 
         # Step 4: Retrieve and display the data from the table
-        chipo_cursor.execute("SELECT id, zita, giredhi, guta FROM vadzidzi")
-        zvakawanikwa_mudura = chipo_cursor.fetchall()
+        theophilus_cursor.execute("SELECT id, apprentice_name, scholastic_rank, sanctuary_city FROM apprentices")
+        retrieved_chronicles = theophilus_cursor.fetchall()
 
         print("\nRetrieved Data from Database:")
-        print(f"{'ID':<5} {'Zita (Name)':<20} {'Giredhi (Grade)':<18} {'Guta (City)':<15}")
-        print("-" * 58)
-        for mudzidzi in zvakawanikwa_mudura:
-            id_nhamba, zita_remudzidzi, giredhi_remudzidzi, guta_remudzidzi = mudzidzi
-            print(f"{id_nhamba:<5} {zita_remudzidzi:<20} {giredhi_remudzidzi:<18} {guta_remudzidzi:<15}")
+        print(f"{'ID':<5} {'Apprentice Name':<25} {'Scholastic Rank':<18} {'Sanctuary City':<15}")
+        print("-" * 65)
+        for scholar_entry in retrieved_chronicles:
+            id_num, full_name, rank_val, city_loc = scholar_entry
+            print(f"{id_num:<5} {full_name:<25} {rank_val:<18} {city_loc:<15}")
 
         # Clean up database connection
-        chipo_cursor.close()
-        tinashe_kubatana.close()
+        theophilus_cursor.close()
+        peregrine_db_conn.close()
 
-    except sqlite3.Error as chikanganiso:
-        print(f"Database error occurred: {chikanganiso}")
+    except sqlite3.Error as sqlite_glitch:
+        print(f"Database error occurred: {sqlite_glitch}")
 
     finally:
-        # Remove temporary demo database file to keep workspace clean
-        if os.path.exists(dura_zita):
+        # Remove temporary demo database file to keep the workspace tidy
+        if os.path.exists(labyrinth_db_name):
             try:
-                os.remove(dura_zita)
+                os.remove(labyrinth_db_name)
             except Exception:
                 pass
 
@@ -104,82 +100,83 @@ def mubvunzo_wekutanga():
 """
 Question 2 Explanation:
 What is Encapsulation?
-Think of encapsulation like keeping your money safely tucked inside your wallet or pocket (chikwama).
-If anyone on the street wants money, they cannot just reach into your pocket and take it directly!
-Instead, your money is private and hidden.
-If someone wants to add money (deposit) or request money (withdraw), they have to ask you nicely.
-You then verify whether the amount is valid (e.g. they can't withdraw more than you have, or deposit negative money).
+Think of encapsulation like keeping your valuables locked inside a heavy personal vault.
+Passersby on the street cannot simply reach into your pockets or pry open the vault door directly!
+Instead, your money is private and concealed behind locked doors.
+If anyone wishes to add funds (deposit) or withdraw funds, they must ask the vault keeper through official slots.
+The vault keeper checks whether the request is valid (e.g. you cannot withdraw more money than exists,
+or deposit negative sums).
 
 In Python:
-- We make an attribute private by starting its name with two underscores (like `__mari_yese`).
-- This stops outside code from modifying the balance directly without our permission.
-- We provide controlled methods (deposit, withdraw, display_balance) to manage the money safely.
+- We make an attribute private by starting its name with two underscores (like `__quicksilver_balance`).
+- This prevents external code from modifying or tampering with the balance directly.
+- We provide controlled public methods (deposit, withdraw, display_balance) to manage funds safely.
 """
 
 class BankAccount:
-    def __init__(self, muridzi_we_akaundi, mari_yokutanga=0.0):
-        # Public attribute: anyone can see who owns this account
-        self.muridzi_we_akaundi = muridzi_we_akaundi
+    def __init__(self, vault_custodian, initial_treasure=0.0):
+        # Public attribute: the visible owner of the vault
+        self.vault_custodian = vault_custodian
         
         # Private attribute (encapsulation):
-        # The double underscore '__' protects this balance from direct outside modification
-        self.__mari_yese = float(mari_yokutanga) if mari_yokutanga >= 0 else 0.0
+        # The double underscore '__' shields this balance from direct outside modification
+        self.__quicksilver_balance = float(initial_treasure) if initial_treasure >= 0 else 0.0
 
-    def deposit(self, mari_inopinda):
+    def deposit(self, incoming_tribute):
         """Safely deposit money into the account"""
-        if mari_inopinda > 0:
-            self.__mari_yese += mari_inopinda
-            print(f"[{self.muridzi_we_akaundi}] Deposited: ${mari_inopinda:.2f}")
+        if incoming_tribute > 0:
+            self.__quicksilver_balance += incoming_tribute
+            print(f"[{self.vault_custodian}] Deposited: ${incoming_tribute:.2f}")
         else:
-            print(f"[{self.muridzi_we_akaundi}] Deposit failed: Amount must be greater than 0.")
+            print(f"[{self.vault_custodian}] Deposit failed: Amount must be strictly greater than 0.")
 
-    def withdraw(self, mari_inobuda):
-        """Safely withdraw money after checking if sufficient funds exist"""
-        if mari_inobuda <= 0:
-            print(f"[{self.muridzi_we_akaundi}] Withdrawal failed: Amount must be greater than 0.")
-        elif mari_inobuda > self.__mari_yese:
-            print(f"[{self.muridzi_we_akaundi}] Withdrawal denied: Insufficient balance! Current balance is ${self.__mari_yese:.2f}")
+    def withdraw(self, outgoing_tribute):
+        """Safely withdraw money after verifying sufficient funds exist"""
+        if outgoing_tribute <= 0:
+            print(f"[{self.vault_custodian}] Withdrawal failed: Amount must be strictly greater than 0.")
+        elif outgoing_tribute > self.__quicksilver_balance:
+            print(f"[{self.vault_custodian}] Withdrawal denied: Insufficient reserves! Current balance is ${self.__quicksilver_balance:.2f}")
         else:
-            self.__mari_yese -= mari_inobuda
-            print(f"[{self.muridzi_we_akaundi}] Successfully withdrew: ${mari_inobuda:.2f}")
+            self.__quicksilver_balance -= outgoing_tribute
+            print(f"[{self.vault_custodian}] Successfully withdrew: ${outgoing_tribute:.2f}")
 
     def display_balance(self):
         """Method to view the current protected balance"""
-        print(f"[{self.muridzi_we_akaundi}] Current Balance: ${self.__mari_yese:.2f}")
-        return self.__mari_yese
+        print(f"[{self.vault_custodian}] Current Balance: ${self.__quicksilver_balance:.2f}")
+        return self.__quicksilver_balance
 
 
-def mubvunzo_wechipiri():
+def run_question_two():
     print("\n" + "=" * 60)
     print("QUESTION 2: Encapsulation Demonstration")
     print("=" * 60)
 
-    # Create an account for Ruvimbo with an initial balance of $250
-    ruvimbo_akaundi = BankAccount("Ruvimbo", 250.0)
-    ruvimbo_akaundi.display_balance()
+    # Instantiate an account for Wilhelmina with an initial balance of $250
+    wilhelmina_vault = BankAccount("Wilhelmina", 250.0)
+    wilhelmina_vault.display_balance()
 
     # Perform legitimate transactions
-    tatenda_deposit = 150.0
-    ruvimbo_akaundi.deposit(tatenda_deposit)
+    ignatius_deposit = 150.0
+    wilhelmina_vault.deposit(ignatius_deposit)
 
-    kumbirai_mari = 80.0
-    ruvimbo_akaundi.withdraw(kumbirai_mari)
+    leopold_withdrawal = 80.0
+    wilhelmina_vault.withdraw(leopold_withdrawal)
 
-    # Attempting to overdraw money
-    muchaneta_overdraw = 500.0
-    ruvimbo_akaundi.withdraw(muchaneta_overdraw)
+    # Attempt to overdraw beyond available funds
+    barnaby_overdraft = 500.0
+    wilhelmina_vault.withdraw(barnaby_overdraft)
 
     # Display balance after operations
-    ruvimbo_akaundi.display_balance()
+    wilhelmina_vault.display_balance()
 
     # Demonstrating Encapsulation protection:
-    print("\nDemonstrating that the private attribute '__mari_yese' cannot be directly accessed:")
+    print("\nDemonstrating that the private attribute '__quicksilver_balance' cannot be accessed directly:")
     try:
-        # Trying to access the private balance directly from outside the class
-        print(ruvimbo_akaundi.__mari_yese)
-    except AttributeError as chikanganiso_che_private:
-        print(f"BLOCKED BY PYTHON: Cannot access '__mari_yese' directly -> {chikanganiso_che_private}")
-        print("Encapsulation successfully prevents outside code from tampering with the balance directly!")
+        # Attempting direct access to the private balance attribute from outside the class
+        print(wilhelmina_vault.__quicksilver_balance)
+    except AttributeError as clandestine_access_error:
+        print(f"BLOCKED BY PYTHON: Cannot access '__quicksilver_balance' directly -> {clandestine_access_error}")
+        print("Encapsulation successfully prevents outside code from altering the balance directly!")
 
 
 # ==============================================================================
@@ -188,92 +185,91 @@ def mubvunzo_wechipiri():
 """
 Question 3 Explanation:
 Think of a client and server like making a telephone call.
-- The Server is a receptionist sitting by a telephone with a known phone number (Host IP and Port).
-  The server sets up a socket, binds to that number, and listens for calls.
-- The Client is a customer dialing the server's number.
-  Once connected, the client says "Hello from client!".
-- The Server picks up, receives the message, and prints it out to the console.
-- Basic error handling (try-except) ensures that if the phone is busy, unreachable, or disconnected,
-  the program catches the error gracefully instead of crashing abruptly.
+- The Server is a sentinel station waiting by a desk telephone with a known number (Host IP and Port).
+  The server creates a socket, binds to that number, and listens for incoming calls.
+- The Client is an emissary dialing the sentinel station's number.
+  Once connected, the emissary speaks: "Hello from client!".
+- The Server receives the message and prints it clearly to the console.
+- Basic error handling (try-except) guarantees that if the connection drops, times out,
+  or fails to connect, the application catches the error gracefully instead of crashing.
 """
 
-def maseva_anoshanda(host, port, server_ready_event):
+def sentinel_server_worker(host, port, sentinel_ready_beacon):
     """Server function running on a background thread"""
-    tawanda_server_sock = None
+    horatio_server_socket = None
     try:
-        tawanda_server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        # Allow reusing address immediately if restarted
-        tawanda_server_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        tawanda_server_sock.bind((host, port))
-        tawanda_server_sock.listen(1)
-        tawanda_server_sock.settimeout(5.0)  # Stop waiting after 5 seconds to prevent hanging
+        horatio_server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # Allow address reuse immediately in case of rapid restarts
+        horatio_server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        horatio_server_socket.bind((host, port))
+        horatio_server_socket.listen(1)
+        horatio_server_socket.settimeout(5.0)  # Prevent indefinite hanging
         
-        # Signal that the server is ready to accept connections
-        server_ready_event.set()
+        # Signal that the sentinel server is listening and ready
+        sentinel_ready_beacon.set()
 
-        chikwata_chinobatana, kero_ye_client = tawanda_server_sock.accept()
+        rendezvous_connection, emissary_address = horatio_server_socket.accept()
         try:
-            mashoko_akagamuchirwa = chikwata_chinobatana.recv(1024).decode("utf-8")
-            print(f"[Server Console] Received message from client ({kero_ye_client}): {mashoko_akagamuchirwa}")
+            intercepted_dispatch = rendezvous_connection.recv(1024).decode("utf-8")
+            print(f"[Server Console] Received message from client ({emissary_address}): {intercepted_dispatch}")
         finally:
-            chikwata_chinobatana.close()
+            rendezvous_connection.close()
 
     except socket.timeout:
         print("[Server] Listening timed out waiting for connection.")
-    except socket.error as chikanganiso_che_server:
-        print(f"[Server Network Error]: {chikanganiso_che_server}")
+    except socket.error as sentinel_network_anomaly:
+        print(f"[Server Network Error]: {sentinel_network_anomaly}")
     finally:
-        if tawanda_server_sock:
-            tawanda_server_sock.close()
+        if horatio_server_socket:
+            horatio_server_socket.close()
 
 
-def mutengi_anoshanda(host, port):
+def emissary_client_worker(host, port):
     """Client function connecting to the server"""
-    chengetai_client_sock = None
+    thaddeus_client_socket = None
     try:
-        chengetai_client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        chengetai_client_sock.settimeout(5.0)
-        chengetai_client_sock.connect((host, port))
+        thaddeus_client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        thaddeus_client_socket.settimeout(5.0)
+        thaddeus_client_socket.connect((host, port))
 
-        shoko_rekutumira = "Hello from client!"
-        chengetai_client_sock.sendall(shoko_rekutumira.encode("utf-8"))
-        print(f"[Client Console] Successfully sent: '{shoko_rekutumira}'")
+        ephemeral_transmission = "Hello from client!"
+        thaddeus_client_socket.sendall(ephemeral_transmission.encode("utf-8"))
+        print(f"[Client Console] Successfully sent: '{ephemeral_transmission}'")
 
-    except socket.error as chikanganiso_che_client:
-        print(f"[Client Network Error]: Failed to communicate with server: {chikanganiso_che_client}")
+    except socket.error as emissary_network_anomaly:
+        print(f"[Client Network Error]: Failed to communicate with server: {emissary_network_anomaly}")
     finally:
-        if chengetai_client_sock:
-            chengetai_client_sock.close()
+        if thaddeus_client_socket:
+            thaddeus_client_socket.close()
 
 
-def mubvunzo_wechitatu():
+def run_question_three():
     print("\n" + "=" * 60)
     print("QUESTION 3: Socket Client-Server Demonstration")
     print("=" * 60)
 
-    munashe_host = "127.0.0.1"
-    # Choose a high port for local socket communication
-    tsitsi_port = 55432
+    cynosure_host = "127.0.0.1"
+    solstice_port = 55432
 
-    server_wagadzirira = threading.Event()
+    sentinel_ready_beacon = threading.Event()
 
-    # Run the server on a separate thread so it listens while the client sends
-    server_shinda = threading.Thread(
-        target=maseva_anoshanda,
-        args=(munashe_host, tsitsi_port, server_ready_event:=server_wagadzirira)
+    # Launch server worker in a background thread so it listens while client connects
+    sentinel_thread = threading.Thread(
+        target=sentinel_server_worker,
+        args=(cynosure_host, solstice_port, sentinel_ready_beacon)
     )
-    server_shinda.daemon = True
-    server_shinda.start()
+    sentinel_thread.daemon = True
+    sentinel_thread.start()
 
-    # Wait until the server is actively listening
-    server_wagadzirira.wait(timeout=2.0)
+    # Await confirmation that server is actively listening
+    sentinel_ready_beacon.wait(timeout=2.0)
     time.sleep(0.1)
 
-    # Now execute the client
-    mutengi_anoshanda(munashe_host, tsitsi_port)
+    # Trigger client dispatch
+    emissary_client_worker(cynosure_host, solstice_port)
 
-    # Wait for the server thread to finish cleanly
-    server_shinda.join(timeout=3.0)
+    # Await server completion
+    sentinel_thread.join(timeout=3.0)
 
 
 # ==============================================================================
@@ -281,31 +277,31 @@ def mubvunzo_wechitatu():
 # ==============================================================================
 """
 Question 4 Explanation:
-We use Python's 'random' module, which works like rolling digital dice.
+We use Python's 'random' module, which functions like rolling digital polyhedral dice.
 - `random.uniform(0.0, 10.0)` produces a random decimal number between 0 and 10.
-- We generate a list of 5 such random numbers.
-- Then, we use Python's built-in functions `min()` and `max()` to effortlessly find
-  the lowest and highest numbers in the list without needing custom loops.
+- We generate a collection of 5 such random numbers into a list.
+- Then, we employ Python's built-in tools `min()` and `max()` to effortlessly identify
+  the nadir (minimum) and zenith (maximum) values without manual sorting loops.
 """
 
-def mubvunzo_wechina():
+def run_question_four():
     print("\n" + "=" * 60)
     print("QUESTION 4: Random Floats, Min and Max Demonstration")
     print("=" * 60)
 
     # Generate a list of 5 random floating-point numbers between 0 and 10
-    nhamba_dzerombo = [random.uniform(0.0, 10.0) for _ in range(5)]
+    kaleidoscope_floats = [random.uniform(0.0, 10.0) for _ in range(5)]
 
     # Use Python's built-in functions min() and max()
-    nhamba_yakaderera = min(nhamba_dzerombo)
-    nhamba_yakakurisa = max(nhamba_dzerombo)
+    nadir_value = min(kaleidoscope_floats)
+    zenith_value = max(kaleidoscope_floats)
 
     print("Generated list of 5 random float numbers:")
-    for chiratidzo_index, nhamba in enumerate(nhamba_dzerombo, start=1):
-        print(f"  {chiratidzo_index}. {nhamba:.4f}")
+    for tally_marker, floating_val in enumerate(kaleidoscope_floats, start=1):
+        print(f"  {tally_marker}. {floating_val:.4f}")
 
-    print(f"\nMinimum value (using min()): {nhamba_yakaderera:.4f}")
-    print(f"Maximum value (using max()): {nhamba_yakakurisa:.4f}")
+    print(f"\nMinimum value (using min()): {nadir_value:.4f}")
+    print(f"Maximum value (using max()): {zenith_value:.4f}")
 
 
 # ==============================================================================
@@ -314,23 +310,23 @@ def mubvunzo_wechina():
 """
 Question 5 Explanation:
 What is an Abstract Base Class (ABC)?
-Think of `FileHandler` as an official architectural blueprint or a legal contract.
-It tells us: 'Any class that wants to handle files MUST know how to read() and write().'
-You cannot build a house directly out of the paper blueprint (you cannot instantiate an ABC).
-Instead, actual concrete builders (like `TextFileHandler` and `BinaryFileHandler`) follow the blueprint
-and write the real code for reading and writing plain text or raw binary files.
+Think of `FileHandler` as an architectural charter or blueprint.
+It mandates: 'Any class that claims to handle files MUST know how to read() and write().'
+You cannot build a physical residence out of paper blueprints alone (you cannot instantiate an ABC).
+Instead, concrete builders (like `TextFileHandler` and `BinaryFileHandler`) adhere to the charter
+and supply the actual operational logic for reading and writing plain text or raw computer bytes.
 """
 
 class FileHandler(ABC):
-    """Abstract base class defining the required contract for all file handlers"""
+    """Abstract base class defining the mandatory contract for all file handlers"""
 
     @abstractmethod
-    def read(self, zita_refaira):
+    def read(self, parchment_identifier):
         """Abstract method to read from a file"""
         pass
 
     @abstractmethod
-    def write(self, zita_refaira, zviri_mukati):
+    def write(self, parchment_identifier, manuscript_payload):
         """Abstract method to write content into a file"""
         pass
 
@@ -338,80 +334,80 @@ class FileHandler(ABC):
 class TextFileHandler(FileHandler):
     """Concrete handler for reading and writing normal human-readable text files"""
 
-    def read(self, zita_refaira):
+    def read(self, parchment_identifier):
         try:
-            with open(zita_refaira, "r", encoding="utf-8") as rugwaro_file:
-                mashoko = rugwaro_file.read()
-                print(f"[TextFileHandler] Read content from '{zita_refaira}':\n  -> \"{mashoko.strip()}\"")
-                return mashoko
+            with open(parchment_identifier, "r", encoding="utf-8") as vellum_file:
+                prose_content = vellum_file.read()
+                print(f"[TextFileHandler] Read content from '{parchment_identifier}':\n  -> \"{prose_content.strip()}\"")
+                return prose_content
         except FileNotFoundError:
-            print(f"[TextFileHandler Error]: File '{zita_refaira}' was not found.")
+            print(f"[TextFileHandler Error]: File '{parchment_identifier}' was not found.")
             return None
 
-    def write(self, zita_refaira, zviri_mukati):
-        with open(zita_refaira, "w", encoding="utf-8") as rugwaro_file:
-            rugwaro_file.write(str(zviri_mukati))
-            print(f"[TextFileHandler] Successfully wrote text to '{zita_refaira}'")
+    def write(self, parchment_identifier, manuscript_payload):
+        with open(parchment_identifier, "w", encoding="utf-8") as vellum_file:
+            vellum_file.write(str(manuscript_payload))
+            print(f"[TextFileHandler] Successfully wrote text to '{parchment_identifier}'")
 
 
 class BinaryFileHandler(FileHandler):
-    """Concrete handler for reading and writing binary files (e.g. images, audio, raw bytes)"""
+    """Concrete handler for reading and writing raw binary files (images, audio, bytes)"""
 
-    def read(self, zita_refaira):
+    def read(self, parchment_identifier):
         try:
-            with open(zita_refaira, "rb") as bhinari_file:
-                data_remabhinari = bhinari_file.read()
-                print(f"[BinaryFileHandler] Read {len(data_remabhinari)} bytes from '{zita_refaira}':\n  -> {data_remabhinari}")
-                return data_remabhinari
+            with open(parchment_identifier, "rb") as chrysalis_file:
+                raw_bytes = chrysalis_file.read()
+                print(f"[BinaryFileHandler] Read {len(raw_bytes)} bytes from '{parchment_identifier}':\n  -> {raw_bytes}")
+                return raw_bytes
         except FileNotFoundError:
-            print(f"[BinaryFileHandler Error]: Binary file '{zita_refaira}' was not found.")
+            print(f"[BinaryFileHandler Error]: Binary file '{parchment_identifier}' was not found.")
             return None
 
-    def write(self, zita_refaira, zviri_mukati):
+    def write(self, parchment_identifier, manuscript_payload):
         # Convert string to bytes if passed as string, otherwise write bytes directly
-        bytes_data = zviri_mukati.encode("utf-8") if isinstance(zviri_mukati, str) else zviri_mukati
-        with open(zita_refaira, "wb") as bhinari_file:
-            bhinari_file.write(bytes_data)
-            print(f"[BinaryFileHandler] Successfully wrote {len(bytes_data)} bytes to '{zita_refaira}'")
+        byte_data = manuscript_payload.encode("utf-8") if isinstance(manuscript_payload, str) else manuscript_payload
+        with open(parchment_identifier, "wb") as chrysalis_file:
+            chrysalis_file.write(byte_data)
+            print(f"[BinaryFileHandler] Successfully wrote {len(byte_data)} bytes to '{parchment_identifier}'")
 
 
-def mubvunzo_wechishanu():
+def run_question_five():
     print("\n" + "=" * 60)
     print("QUESTION 5: Abstract Base Class FileHandler Demonstration")
     print("=" * 60)
 
-    sekai_text_handler = TextFileHandler()
-    fungai_binary_handler = BinaryFileHandler()
+    vellum_text_handler = TextFileHandler()
+    chrysalis_binary_handler = BinaryFileHandler()
 
-    rugwaro_zita = "mufaro_rugwaro.txt"
-    bhinari_zita = "mufaro_dhata.bin"
+    parchment_text_file = "whimsical_prose.txt"
+    effervescent_binary_file = "quicksilver_bytes.bin"
 
     try:
         # Testing TextFileHandler
-        mashoko_emufaro = "Kudzidza Python kwakanakisa! (Learning Python is great!)"
-        sekai_text_handler.write(rugwaro_zita, mashoko_emufaro)
-        sekai_text_handler.read(rugwaro_zita)
+        talisman_text_data = "Exploring Python with uncommon curiosity and elegance!"
+        vellum_text_handler.write(parchment_text_file, talisman_text_data)
+        vellum_text_handler.read(parchment_text_file)
 
         print()
 
         # Testing BinaryFileHandler
-        raw_bhinari_mashoko = b"Raw binary payload: \x00\x01\x02\xFF"
-        fungai_binary_handler.write(bhinari_zita, raw_bhinari_mashoko)
-        fungai_binary_handler.read(bhinari_zita)
+        panoply_binary_data = b"Raw binary payload: \x00\x01\x02\xFF"
+        chrysalis_binary_handler.write(effervescent_binary_file, panoply_binary_data)
+        chrysalis_binary_handler.read(effervescent_binary_file)
 
         # Demonstrating that the abstract class itself cannot be directly instantiated:
         print("\nDemonstrating that the Abstract Base Class FileHandler cannot be instantiated directly:")
         try:
             _ = FileHandler()
-        except TypeError as chikanganiso_che_abc:
-            print(f"BLOCKED BY PYTHON: Cannot instantiate FileHandler directly -> {chikanganiso_che_abc}")
+        except TypeError as abstract_instantiation_error:
+            print(f"BLOCKED BY PYTHON: Cannot instantiate FileHandler directly -> {abstract_instantiation_error}")
 
     finally:
         # Clean up created demo files
-        for faira in [rugwaro_zita, bhinari_zita]:
-            if os.path.exists(faira):
+        for ephemeral_path in [parchment_text_file, effervescent_binary_file]:
+            if os.path.exists(ephemeral_path):
                 try:
-                    os.remove(faira)
+                    os.remove(ephemeral_path)
                 except Exception:
                     pass
 
@@ -423,68 +419,68 @@ def mubvunzo_wechishanu():
 Question 6 Explanation:
 What is a Class Hierarchy and Method Overriding?
 A class hierarchy is like a family tree.
-- `Vehicle` is the parent (base class).
-- `Car` and `Bike` are the children (subclasses).
-The parent has a general method called `move()`.
-When a child class inherits from the parent, it can either use the parent's generic `move()`
-or provide its own custom version of `move()`.
-Replacing the parent's method with a custom version in the child class is called 'Method Overriding'.
-A car moves with a roaring engine on 4 wheels, while a bike moves by pedaling on 2 wheels.
+- `Vehicle` is the ancestor (base class).
+- `Car` and `Bike` are the progeny (subclasses).
+The base class defines a general behavior called `move()`.
+When a subclass inherits from the base class, it can either keep the generic `move()`
+or provide its own customized version of `move()`.
+Replacing the base class's method with a custom version in the subclass is called 'Method Overriding'.
+A car moves with a roaring internal combustion engine on 4 wheels, whereas a bike moves by pedal cadence on 2 wheels.
 """
 
 class Vehicle:
-    """Base class representing any generic vehicle"""
+    """Base class representing any generic conveyance"""
 
-    def __init__(self, mhando_yemudziyo, muridzi):
-        self.mhando_yemudziyo = mhando_yemudziyo  # Model / make
-        self.muridzi = muridzi                  # Owner's name
+    def __init__(self, conveyance_archetype, navigator_name):
+        self.conveyance_archetype = conveyance_archetype  # Model / category
+        self.navigator_name = navigator_name              # Operator / owner name
 
     def move(self):
         """Base method: Generic movement behavior for all vehicles"""
-        print(f"[Vehicle] {self.muridzi}'s {self.mhando_yemudziyo} is moving forward along the road.")
+        print(f"[Vehicle] {self.navigator_name}'s {self.conveyance_archetype} is progressing forward along the roadway.")
 
 
 class Car(Vehicle):
     """Subclass representing a car, inheriting from Vehicle"""
 
-    def __init__(self, mhando_yemudziyo, muridzi, mawhiri=4):
-        super().__init__(mhando_yemudziyo, muridzi)
-        self.mawhiri = mawhiri
+    def __init__(self, conveyance_archetype, navigator_name, wheel_assemblies=4):
+        super().__init__(conveyance_archetype, navigator_name)
+        self.wheel_assemblies = wheel_assemblies
 
     def move(self):
         """Overriding the move() method specifically for a car"""
-        print(f"[Car] {self.muridzi}'s car ({self.mhando_yemudziyo}) revs its engine and cruises smoothly on {self.mawhiri} wheels!")
+        print(f"[Car] {self.navigator_name}'s car ({self.conveyance_archetype}) revs its combustion engine and cruises on {self.wheel_assemblies} wheels!")
 
 
 class Bike(Vehicle):
     """Subclass representing a bicycle, inheriting from Vehicle"""
 
-    def __init__(self, mhando_yemudziyo, muridzi, ine_bhero=True):
-        super().__init__(mhando_yemudziyo, muridzi)
-        self.ine_bhero = ine_bhero
+    def __init__(self, conveyance_archetype, navigator_name, has_tinkling_chime=True):
+        super().__init__(conveyance_archetype, navigator_name)
+        self.has_tinkling_chime = has_tinkling_chime
 
     def move(self):
         """Overriding the move() method specifically for a bicycle"""
-        kurira = "ringing its bell (karing-ring!)" if self.ine_bhero else "gliding silently"
-        print(f"[Bike] {self.muridzi}'s bicycle ({self.mhando_yemudziyo}) pedals down the pathway, {kurira} on 2 wheels!")
+        auditory_flair = "ringing its handlebar chime (karing-ring!)" if self.has_tinkling_chime else "gliding along quietly"
+        print(f"[Bike] {self.navigator_name}'s bicycle ({self.conveyance_archetype}) pedals rhythmically, {auditory_flair} on 2 wheels!")
 
 
-def mubvunzo_wechitanhatu():
+def run_question_six():
     print("\n" + "=" * 60)
     print("QUESTION 6: Class Hierarchy and Method Overriding")
     print("=" * 60)
 
     # Instantiate base class and both subclasses
-    simbarashe_mudziyo = Vehicle("Generic Transporter", "Simbarashe")
-    takudzwa_mota = Car("Toyota Hilux", "Takudzwa", mawhiri=4)
-    anopa_bhasikoro = Bike("Mountain Bike", "Anopa", ine_bhero=True)
+    peregrine_conveyance = Vehicle("Vintage Locomotive", "Peregrine")
+    montgomery_chariot = Car("Aston Martin DB5", "Montgomery", wheel_assemblies=4)
+    gwendolyn_velocipede = Bike("Penny-Farthing", "Gwendolyn", has_tinkling_chime=True)
 
     # Demonstrate polymorphic method calls (overriding in action)
     print("Calling move() on each object to demonstrate method overriding:")
-    zvifambiso = [simbarashe_mudziyo, takudzwa_mota, anopa_bhasikoro]
+    fleet_of_conveyances = [peregrine_conveyance, montgomery_chariot, gwendolyn_velocipede]
 
-    for mudziyo in zvifambiso:
-        mudziyo.move()
+    for conveyance_unit in fleet_of_conveyances:
+        conveyance_unit.move()
 
 
 # ==============================================================================
@@ -495,12 +491,12 @@ if __name__ == "__main__":
     print("     STARTING ASSIGNMENT 2 DEMONSTRATIONS (100 MARKS)")
     print("#" * 60)
 
-    mubvunzo_wekutanga()
-    mubvunzo_wechipiri()
-    mubvunzo_wechitatu()
-    mubvunzo_wechina()
-    mubvunzo_wechishanu()
-    mubvunzo_wechitanhatu()
+    run_question_one()
+    run_question_two()
+    run_question_three()
+    run_question_four()
+    run_question_five()
+    run_question_six()
 
     print("\n" + "#" * 60)
     print("     ALL ASSIGNMENT 2 QUESTIONS COMPLETED SUCCESSFULLY!")
